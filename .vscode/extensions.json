@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "vitest.explorer",
+        "dbaeumer.vscode-eslint",
+        "mariusalchimavicius.json-to-ts",
+        "yoavbls.pretty-ts-errors",
+        "esbenp.prettier-vscode"
+    ]
+}

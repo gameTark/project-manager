@@ -1,0 +1,36 @@
+interface Node {
+  # The ID of the object.
+  id: ID!
+}
+
+type Book implements Node {
+  id: ID!
+  title: String!
+  author: Author!
+}
+
+type Author implements Node {
+  id: ID!
+  name: String!
+  age: Int
+  books: [Book]!
+}
+
+enum FileType {
+  FILE
+  DIRECTORY
+}
+
+type File {
+  type: FileType!
+  path: String!
+  updatedAt: Float!
+  size: Int!
+}
+
+type Query {
+  hello: String!
+  file(path: String!): File
+  rollThreeDice: [Int!]!
+  books: [Book!]!
+}
