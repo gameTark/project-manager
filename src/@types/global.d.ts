@@ -14,11 +14,10 @@ declare module "process" {
 }
 interface Window {
   mainProcess: {
-    gql: <Result = any>(
+    gql: <Result = any, Args = any>(
       query: string,
-    ) => Promise<{
-      data: Result;
-    }>;
+      variables?: Args,
+    ) => Promise<{ data: Result }>;
   };
 }
 declare var window: Window;

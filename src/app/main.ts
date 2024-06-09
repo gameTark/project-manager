@@ -19,8 +19,8 @@ app.whenReady().then(() => {
   win.webContents.openDevTools();
 
   // const resolvers  = []
-  ipcMain.handle("gql", async (_e: any, query: string) => {
-    return await graphqlServer(query);
+  ipcMain.handle("gql", async (_e: any, query: string, variables?: any ) => {
+    return await graphqlServer(query, variables || {});
   });
 
   if (process.env.VITE_DEV_SERVER_URL) {

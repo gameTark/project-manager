@@ -31,6 +31,8 @@ export type Book = Node & {
 
 export type File = {
   __typename?: 'File';
+  ls: Array<File>;
+  name: Scalars['String']['output'];
   path: Scalars['String']['output'];
   size: Scalars['Int']['output'];
   type: FileType;
@@ -63,3 +65,10 @@ export type GetBooksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetBooksQuery = { __typename?: 'Query', books: Array<{ __typename?: 'Book', title: string }> };
+
+export type GetFileQueryVariables = Exact<{
+  path: Scalars['String']['input'];
+}>;
+
+
+export type GetFileQuery = { __typename?: 'Query', file?: { __typename?: 'File', name: string, path: string, ls: Array<{ __typename?: 'File', name: string, type: FileType, updatedAt: number, size: number }> } | null };

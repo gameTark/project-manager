@@ -1,7 +1,7 @@
 import { ipcRenderer } from "electron";
 
 const mainProcess = {
-  gql: (gqlString: string) => ipcRenderer.invoke("gql", gqlString),
+  gql: (gqlString: string, variables?: any) => ipcRenderer.invoke("gql", gqlString, variables),
 } as const;
 
 type MainProcess = typeof mainProcess;

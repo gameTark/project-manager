@@ -33,6 +33,8 @@ export type Book = Node & {
 
 export type File = {
   __typename?: 'File';
+  ls: Array<File>;
+  name: Scalars['String']['output'];
   path: Scalars['String']['output'];
   size: Scalars['Int']['output'];
   type: FileType;
@@ -179,6 +181,8 @@ export type BookResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type FileResolvers<ContextType = any, ParentType extends ResolversParentTypes['File'] = ResolversParentTypes['File']> = {
+  ls?: Resolver<Array<ResolversTypes['File']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   path?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   size?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['FileType'], ParentType, ContextType>;

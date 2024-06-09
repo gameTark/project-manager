@@ -1,12 +1,9 @@
 import { Button, Flex, Text } from "@radix-ui/themes";
+import { type GetFileQuery, GetFileQueryVariables } from "schemas/src/generated/renderer/gql";
 
-// import * as gql from "schemas/src/generated/renderer/gql";
-// const path = "C:\\\\Program Files\\\\Derivative\\\\TouchDesigner\\\\bin";
 
-const Hoge = () => {
-  window.mainProcess
-    .gql(
-      `query GetBooks {
+const query = `
+query GetBooks {
   books {
       title
       author {
@@ -15,19 +12,40 @@ const Hoge = () => {
         }
       }
   }
-}`,
-    )
-    .then((res) => console.log(res.data));
-  // console.log(path);
-  // window.mainProcess
-  //   .gql(
-  //     `{ file(path: "${path}") {
-  //   type
-  //   updatedAt
-  //   path
-  // } }`,
-  //   )
-  //   .then((res) => console.log(res));
+}
+`
+const getFileQuery = `
+query GetFile($path: String!) {
+  file(path: $path) {
+    name
+    path
+    ls {
+      name
+      type
+      updatedAt
+      size
+    }
+  }
+}
+`
+const path = "C:\\\\Program Files\\\\Derivative\\\\TouchDesigner";
+
+const useGetFileQuery = () => {
+  return window.mainProcess
+    .gql<GetFileQuery, GetFileQueryVariables>(getFileQuery, {
+      path: path,
+    });
+
+}
+const Hoge = () => {
+  window.mainProcess
+    .gql(query)
+    .then((res) => console.log(res.data))
+    .catch((res) => console.log(res.data));
+  const hoge = useGetFileQuery();
+  hoge.then(res => {
+    console.log(res.data.file?.ls);
+  }) 
   return <>hoge</>;
 };
 

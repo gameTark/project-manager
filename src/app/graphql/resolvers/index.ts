@@ -1,5 +1,5 @@
 import { BookSchema } from "./schema/Book";
-import { FileSchema } from "./schema/File";
+import { fileDataloader } from "./schema/File";
 
 const resolver = {
   books() {
@@ -9,7 +9,7 @@ const resolver = {
     })];
   },
   file: (args: { path: string }) => {
-    return new FileSchema(args);
+    return fileDataloader.load(args.path);
   },
   hello() {
     return "Hello world!";

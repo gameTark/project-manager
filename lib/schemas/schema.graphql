@@ -23,9 +23,11 @@ enum FileType {
 
 type File {
   type: FileType!
+  name: String!
   path: String!
   updatedAt: Float!
   size: Int!
+  ls: [File!]!
 }
 
 type Query {
