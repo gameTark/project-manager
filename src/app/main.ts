@@ -6,8 +6,6 @@ import { graphqlServer } from "./graphql";
 app.whenReady().then(() => {
   const win = new BrowserWindow({
     title: "Main window",
-    // fullscreen: true,
-    // frame: false,
     width: 1000,
     height: 500,
     transparent: true,
@@ -19,7 +17,7 @@ app.whenReady().then(() => {
   win.webContents.openDevTools();
 
   // const resolvers  = []
-  ipcMain.handle("gql", async (_e: any, query: string, variables?: any ) => {
+  ipcMain.handle("gql", async (_e: any, query: string, variables?: any) => {
     return await graphqlServer(query, variables || {});
   });
 
