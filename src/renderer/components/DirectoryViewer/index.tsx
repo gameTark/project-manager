@@ -1,14 +1,9 @@
 import * as path from "path";
-import { ReactNode, useCallback, useState } from "react";
-import {
-  ArrowRightIcon,
-  CaretRightIcon,
-  ChevronRightIcon,
-  ChevronUpIcon,
-  FileTextIcon,
-} from "@radix-ui/react-icons";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { ChevronRightIcon, ChevronUpIcon, FileTextIcon } from "@radix-ui/react-icons";
 import { ChevronDownIcon, Container, Flex, IconButton, ScrollArea } from "@radix-ui/themes";
 import { styled } from "@stitches/react";
+import { useQuery } from "@tanstack/react-query";
 
 import { FileContext } from "./context";
 
@@ -38,11 +33,18 @@ const StyledName = () => {
     </Name>
   );
 };
+
+const cache = new Map<string, boolean>();
 const Directory = () => {
-  const [state, setState] = useState(false);
+  // 開いた状態でcacheさせる
+  const targetPath = FileContext.uses.useGetPath();
+  const [state, setState] = useState(cache.get(targetPath || "") || false);
   const changeState = useCallback(() => {
     setState((value) => !value);
   }, []);
+  useEffect(() => {
+    cache.set(targetPath || "", state);
+  }, [state, targetPath]);
   return (
     <FileContext.is.Directory>
       <li>
@@ -103,22 +105,6 @@ const Header = styled("p", {
   borderRadius: "5px",
   padding: "2px 4px",
 });
-const ArrowedPath = (props: { path?: string }) => {
-  const path = props.path || "";
-  const pathList = path.split("/");
-  return (
-    <Flex align="center" justify="start" gap="1">
-      {pathList
-        .map((val, index) => {
-          return <div key={index}>{val}</div>;
-        })
-        .reduce<ReactNode[]>((prev, curr) => {
-          return [...prev, curr, <CaretRightIcon />];
-        }, [])
-        .slice(0, -1)}
-    </Flex>
-  );
-};
 export const FileTree = (props: { path: string }) => {
   const [currentPath, setCurrentPath] = useState(props.path);
   const handleCurrentPage = useCallback(() => {
@@ -130,9 +116,7 @@ export const FileTree = (props: { path: string }) => {
     <ScrollArea type="always" scrollbars="vertical" style={{ height: "100%" }}>
       <Container width={"100%"} pr={"3"} pl={"1"}>
         <Flex width={"100%"} justify={"center"} align={"center"} gap={"1"}>
-          <Header>
-            <ArrowedPath path={currentPath} />
-          </Header>
+          <Header>{currentPath}</Header>
           <IconButton onClick={handleCurrentPage}>
             <ChevronUpIcon />
           </IconButton>

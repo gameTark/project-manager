@@ -22,13 +22,21 @@ const useChangeDirectory = (targetPath: string): [string, (path: string) => void
   );
   return [currentPath, changePath];
 };
+
+// 継承系のcontextを使用してgitignore等を参照し抜く
+// filter系のcontextを定義する
+const ignores = (fileName?: string) =>
+  [/^\./, /node_modules/].findIndex((v) => v.test(fileName || ".")) !== -1;
+
 const Directory = (props: { children: ReactNode }) => {
   const file = useFileContext();
+  // if (ignores(file?.name)) return null;
   if (file?.type === FileType.Directory) return props.children;
   return null;
 };
 const File = (props: { children: ReactNode }) => {
   const file = useFileContext();
+  // if (ignores(file?.name)) return null;
   if (file?.type === FileType.File) return props.children;
   return null;
 };
