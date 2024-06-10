@@ -1,0 +1,16 @@
+query GetFile($path: String!) {
+  file(path: $path) {
+    name
+    type
+    path
+    updatedAt
+    size
+    ls {
+      name
+      type
+      path
+      updatedAt
+      size
+    }
+  }
+}

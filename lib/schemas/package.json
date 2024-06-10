@@ -19,6 +19,7 @@
     "@graphql-codegen/typescript-document-nodes": "4.0.7",
     "@graphql-codegen/typescript-operations": "^4.2.1",
     "@graphql-codegen/typescript-resolvers": "4.1.0",
+    "dayjs": "^1.11.11",
     "graphql": "^16.8.1",
     "graphql-tools": "^9.0.1",
     "ts-node": "^10.9.2",

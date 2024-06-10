@@ -1,22 +1,15 @@
-import { Button, Flex, Text } from "@radix-ui/themes";
+import { Container } from "@radix-ui/themes";
 
-import { getFileQuery } from "./queries/baseQuery";
+import { GridLayout } from "./components/Area/Grid";
+import { FileTree } from "./components/DirectoryViewer";
 
-const path = "C:\\\\Program Files\\\\Derivative\\\\TouchDesigner";
-
-const Hoge = () => {
-  getFileQuery({
-    path: path,
-  }).then((res) => console.log(res));
-  return <>hoge</>;
-};
-
+const path = "C:/Users/araki/Spine";
 export default function App() {
   return (
-    <Flex direction="column" gap="2">
-      <Hoge />
-      <Text>Hello from Radix Themes :)</Text>
-      <Button>Let's go</Button>
-    </Flex>
+    <Container width={"100vw"} height={"100vh"} maxWidth={"100vw"} maxHeight={"100vh"}>
+      <GridLayout>
+        <FileTree path={path} />
+      </GridLayout>
+    </Container>
   );
 }

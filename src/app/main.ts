@@ -7,8 +7,8 @@ app.whenReady().then(() => {
   const win = new BrowserWindow({
     title: "Main window",
     width: 1000,
-    height: 500,
-    transparent: true,
+    height: 900,
+    // 'frame': false,
     webPreferences: {
       preload: join(app.getAppPath(), "dist-electron", "preload.mjs"),
     },

@@ -61,14 +61,9 @@ export type QueryFileArgs = {
   path: Scalars['String']['input'];
 };
 
-export type GetBooksQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetBooksQuery = { __typename?: 'Query', books: Array<{ __typename?: 'Book', title: string }> };
-
 export type GetFileQueryVariables = Exact<{
   path: Scalars['String']['input'];
 }>;
 
 
-export type GetFileQuery = { __typename?: 'Query', file?: { __typename?: 'File', name: string, path: string, ls: Array<{ __typename?: 'File', name: string, type: FileType, updatedAt: number, size: number }> } | null };
+export type GetFileQuery = { __typename?: 'Query', file?: { __typename?: 'File', name: string, type: FileType, path: string, updatedAt: number, size: number, ls: Array<{ __typename?: 'File', name: string, type: FileType, path: string, updatedAt: number, size: number }> } | null };
