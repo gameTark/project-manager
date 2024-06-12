@@ -6,7 +6,6 @@ import { BaseDataLoader } from "./BaseDataLoader";
 
 class FileDataloader extends BaseDataLoader<FileSchema["path"], FileSchema> {
   protected async batchLoad(paths: FileSchema["path"][]): Promise<(FileSchema | Error)[]> {
-    console.log(paths.length);
     const result = paths.map(async (strPath) => {
       const file = await fsPromise.stat(strPath);
       return new FileSchema({

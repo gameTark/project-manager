@@ -1,20 +1,13 @@
-import { BookSchema } from "./schema/Book";
 import { fileDataloader } from "./schema/File";
+import { project, projectSelectAll } from "./schema/project";
 
 const resolver = {
-  books() {
-    return [
-      new BookSchema({
-        id: "root",
-        title: "root title",
-      }),
-    ];
-  },
   file: (args: { path: string }) => {
     return fileDataloader.load(args.path);
   },
-  hello() {
-    return "Hello world!";
+  projects: async () => {
+    const projects = await projectSelectAll();
+    return projects.map((val) => project(val).resolver());
   },
 };
 export default resolver;

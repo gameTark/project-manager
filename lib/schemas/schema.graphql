@@ -3,19 +3,6 @@ interface Node {
   id: ID!
 }
 
-type Book implements Node {
-  id: ID!
-  title: String!
-  author: Author!
-}
-
-type Author implements Node {
-  id: ID!
-  name: String!
-  age: Int
-  books: [Book]!
-}
-
 enum FileType {
   FILE
   DIRECTORY
@@ -30,9 +17,67 @@ type File {
   ls: [File!]!
 }
 
+type Icon implements Node {
+  id: ID!
+  srcPath: String!
+  name: String!
+}
+
+# 引数とか追加したい
+type Software implements Node {
+  id: ID!
+  path: String!
+  icon: Icon!
+  args: [String]!
+}
+
+# paginationを考えておいたほうが良い気もする
+type Tag implements Node {
+  id: ID!
+  name: String!
+  color: String!
+  projects: [Project]!
+}
+
+type Project implements Node {
+  id: ID!
+  title: String!
+  description: String
+  sort: Int
+  updatedAt: Float!
+  icon: Icon!
+  tags: [Tag]!
+  contents: [Content]!
+}
+
+enum ContentType {
+  Directory
+  File
+  Software
+  Link
+}
+
+type Content implements Node {
+  contentType: ContentType!
+  id: ID!
+  name: String!
+  icon: Icon!
+  path: String!
+  updatedAt: Float!
+  size: Int!
+  project: Project
+}
+
 type Query {
   hello: String!
+  projects: [Project]!
+  icons: [Icon]!
+  getProject(id: ID!): Project
   file(path: String!): File
   rollThreeDice: [Int!]!
-  books: [Book!]!
+}
+
+type Mutation {
+  project(name: String!, id: ID): Project
+  content(name: String!, path: String!, projectId: ID!, id: ID): Content
 }

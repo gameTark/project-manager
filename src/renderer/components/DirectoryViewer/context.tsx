@@ -1,5 +1,6 @@
 import * as path from "path";
 import { createContext, ReactNode, useCallback, useContext, useState } from "react";
+import { FileIcon, FileTextIcon, GitHubLogoIcon, GroupIcon } from "@radix-ui/react-icons";
 import { dayjs } from "@utils/dayjs";
 import { RecursivePartial } from "@utils/type";
 import { FileType, type File as TFile } from "schemas/src/generated/renderer/gql";
@@ -25,8 +26,8 @@ const useChangeDirectory = (targetPath: string): [string, (path: string) => void
 
 // 継承系のcontextを使用してgitignore等を参照し抜く
 // filter系のcontextを定義する
-const ignores = (fileName?: string) =>
-  [/^\./, /node_modules/].findIndex((v) => v.test(fileName || ".")) !== -1;
+// const ignores = (fileName?: string) =>
+//   [/^\./, /node_modules/].findIndex((v) => v.test(fileName || ".")) !== -1;
 
 const Directory = (props: { children: ReactNode }) => {
   const file = useFileContext();
@@ -40,6 +41,27 @@ const File = (props: { children: ReactNode }) => {
   if (file?.type === FileType.File) return props.children;
   return null;
 };
+
+const fileType = [
+  {
+    regex: /\.md$/,
+    Icon: FileTextIcon,
+  },
+  {
+    regex: /^\.git$/,
+    Icon: GitHubLogoIcon,
+  },
+];
+const Icon = (props: { width?: number }): ReactNode => {
+  const file = useFileContext();
+  // if (file?.type === FileType.Directory) return null;
+  if (file?.name == null) return null;
+  const Icon = fileType.find((val) => val.regex.test(file.name || ""))?.Icon;
+  if (Icon != null) return <Icon width={props.width} />;
+  if (file?.type === FileType.Directory) return <GroupIcon width={props.width} />;
+  return <FileIcon width={props.width} />;
+};
+
 const Name = (): ReactNode => useFileContext()?.name ?? "-----";
 const Path = (): ReactNode => useFileContext()?.path ?? "-----";
 const Size = (): ReactNode => useFileContext()?.size ?? "-----";
@@ -96,6 +118,7 @@ export const FileContext = {
   Name,
   Path,
   Size,
+  Icon,
   Type,
   UpdatedAt,
   Provider,

@@ -3,6 +3,8 @@ import { app, BrowserWindow, ipcMain } from "electron";
 
 import { graphqlServer } from "./graphql";
 
+import "./db/sqlite";
+
 app.whenReady().then(() => {
   const win = new BrowserWindow({
     title: "Main window",

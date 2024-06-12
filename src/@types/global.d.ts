@@ -14,7 +14,10 @@ declare module "process" {
 }
 interface Window {
   mainProcess: {
-    gql: <Result = any, Args = any>(query: any, variables?: Args) => Promise<{ data: Result }>;
+    gql: <Result = any, Args = any>(
+      query: any,
+      variables?: Args,
+    ) => Promise<{ data: Result; errors: string[] }>;
   };
 }
 declare var window: Window;
