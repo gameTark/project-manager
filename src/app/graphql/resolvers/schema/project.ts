@@ -9,6 +9,7 @@ import { tagByProjectIdDataloader } from "./projectTagRelation";
 import { idScala } from "./scala";
 import { tag } from "./tag";
 import { createPrepareQuery } from "./utils";
+import { createLoader } from "./BaseRelation";
 
 export interface IProject {
   id?: string;
@@ -19,9 +20,9 @@ export interface IProject {
   tagIds: string[];
   contentIds: string[];
 
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt?: Date;
+  createdAt: number;
+  updatedAt: number;
+  deletedAt?: number;
 }
 const projectSchema: yup.ObjectSchema<IProject> = yup.object({
   id: idScala.default(randomUUID()),
@@ -30,34 +31,13 @@ const projectSchema: yup.ObjectSchema<IProject> = yup.object({
   sort: yup.number().required(),
   iconId: idScala.required(),
 
-  createdAt: yup.date().default(new Date()),
-  updatedAt: yup.date().default(new Date()),
-  deletedAt: yup.date(),
+  createdAt: yup.number().default(Date.now()),
+  updatedAt: yup.number().default(Date.now()),
+  deletedAt: yup.number(),
 
   tagIds: yup.array(idScala.required()).default([]),
   contentIds: yup.array(idScala.required()).default([]),
 });
-
-const projectSelect = (ids: string[]) => {
-  return new Promise<IProject[]>((resolve, reject) => {
-    if (ids.length === 0) {
-      resolve([]);
-      return;
-    }
-    const value = db.prepare(
-      "SELECT id, title, description, sort, icon_id AS iconId, updated_at AS updatedAt FROM project WHERE id IN(" +
-        createPrepareQuery(ids.length) +
-        ")",
-    );
-    value.all<IProject>(ids, (err, row) => {
-      if (err != null) {
-        reject(err);
-        return;
-      }
-      resolve(row);
-    });
-  });
-};
 
 export const projectSelectAll = () => {
   return new Promise<IProject[]>((resolve, reject) => {
@@ -74,12 +54,10 @@ export const projectSelectAll = () => {
   });
 };
 
-class ProjectDataloader extends BaseDataLoader<IProject["id"], IProject> {
-  protected async batchLoad(ids: Required<IProject>["id"][]): Promise<(IProject | Error)[]> {
-    return projectSelect(ids);
-  }
-}
-export const projectDataloader = new ProjectDataloader();
+export const projectDataloader =  createLoader<Required<IProject>['id'], IProject>({
+  baseQuery: (size) => `SELECT id, title, description, sort, icon_id AS iconId, updated_at AS updatedAt FROM project WHERE id IN(${createPrepareQuery(size)})`
+});
+
 export const project = (args: unknown) => {
   const value = projectSchema.cast(args);
 

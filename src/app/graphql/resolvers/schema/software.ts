@@ -9,9 +9,9 @@ interface ISoftware {
   icon_id: string;
   args?: string[];
 
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt?: Date;
+  createdAt: number;
+  updatedAt: number;
+  deletedAt?: number;
 }
 const softwareSchema: yup.ObjectSchema<ISoftware> = yup.object({
   id: idScala.default(randomUUID()),
@@ -19,9 +19,9 @@ const softwareSchema: yup.ObjectSchema<ISoftware> = yup.object({
   icon_id: yup.string().required(),
   args: yup.array(yup.string().required()).default([]),
 
-  createdAt: yup.date().default(new Date()),
-  updatedAt: yup.date().default(new Date()),
-  deletedAt: yup.date(),
+  createdAt: yup.number().default(Date.now()),
+  updatedAt: yup.number().default(Date.now()),
+  deletedAt: yup.number(),
 });
 export const software = (args: any) => {
   const value = softwareSchema.cast(args);

@@ -26,9 +26,9 @@ interface IContent {
   icon_id: string;
   project_id: string;
 
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt?: Date;
+  createdAt: number;
+  updatedAt: number;
+  deletedAt?: number;
 }
 
 const contentSchema: yup.ObjectSchema<IContent> = yup.object({
@@ -41,9 +41,9 @@ const contentSchema: yup.ObjectSchema<IContent> = yup.object({
   icon_id: idScala.required(),
   project_id: idScala.required(),
 
-  createdAt: yup.date().default(new Date()),
-  updatedAt: yup.date().default(new Date()),
-  deletedAt: yup.date(),
+  createdAt: yup.number().default(Date.now()),
+  updatedAt: yup.number().default(Date.now()),
+  deletedAt: yup.number(),
 });
 
 const contentSelect = (ids: string[]): Promise<IContent[]> => {

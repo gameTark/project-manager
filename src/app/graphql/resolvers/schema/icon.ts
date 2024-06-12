@@ -20,18 +20,18 @@ interface IIcon {
   srcPath: string;
   name: string;
 
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt?: Date;
+  createdAt: number;
+  updatedAt: number;
+  deletedAt?: number;
 }
 const iconSchema: yup.ObjectSchema<IIcon> = yup.object({
   id: idScala.default(randomUUID()),
   srcPath: yup.string().required(),
   name: yup.string().required(),
 
-  createdAt: yup.date().default(new Date()),
-  updatedAt: yup.date().default(new Date()),
-  deletedAt: yup.date(),
+  createdAt: yup.number().default(Date.now()),
+  updatedAt: yup.number().default(Date.now()),
+  deletedAt: yup.number(),
 });
 
 const iconSelect = (ids: string[]) => {
@@ -57,16 +57,6 @@ class IconDataloader extends BaseDataLoader<IIcon["id"], IIcon> {
 }
 export const iconDataloader = new IconDataloader();
 
-const upsert = (args: IIcon) => {
-  new Promise((resolve) => {
-    db.serialize(() => {
-      const stmt = db.prepare(QUERY.UPSERT());
-      stmt.run(args.id, args.srcPath, args.name, Number(args.createdAt), Date.now());
-      stmt.finalize(resolve);
-    });
-  });
-};
-
 export const icon = (args: IIcon) => {
   const value = iconSchema.cast(args);
   return {
@@ -76,7 +66,13 @@ export const icon = (args: IIcon) => {
       };
     },
     upsert: () => {
-      return upsert(value);
+      return new Promise((resolve) => {
+        db.serialize(() => {
+          const stmt = db.prepare(QUERY.UPSERT());
+          stmt.run(args.id, args.srcPath, args.name, Number(args.createdAt), Date.now());
+          stmt.finalize(resolve);
+        });
+      });;
     },
   };
 };

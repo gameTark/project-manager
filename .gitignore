@@ -28,3 +28,5 @@ dist-ssr
 coverage
 out/
 sql.db
+
+prisma/dev.db
