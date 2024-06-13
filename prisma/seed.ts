@@ -3,7 +3,7 @@ import { fakerJA as faker } from '@faker-js/faker'
 const prisma = new PrismaClient()
 const Project: Prisma.ProjectCreateInput[] = [
   {
-    id: 'example-project',
+    id: 'example-project1',
     title: faker.company.name(),
     icon: {
       create: {
@@ -18,7 +18,85 @@ const Project: Prisma.ProjectCreateInput[] = [
             contentType: 'File',
             name: faker.word.conjunction(10),
             path: faker.image.url(),
-            size: faker.number.int(),
+            size: 0,
+            icon: {
+              create: {
+                srcPath: faker.image.url(),
+                name: faker.system.fileName(),
+              }
+            },
+          })))
+      ],
+    },
+    tags: {
+      create: [
+        ...(new Array(30).fill(1).map(() => ({
+          tag: {
+            create: {
+              name: faker.word.noun(),
+              color: faker.color.rgb(),
+            }
+          }
+        })))
+      ]
+    }
+  },
+  {
+    id: 'example-project2',
+    title: faker.company.name(),
+    icon: {
+      create: {
+        srcPath: faker.image.url(),
+        name: faker.system.fileName(),
+      }
+    },
+    contents: {
+      create: [
+        ...(new Array(30).fill(1).map(() => (
+          {
+            contentType: 'File',
+            name: faker.word.conjunction(10),
+            path: faker.image.url(),
+            size: 0,
+            icon: {
+              create: {
+                srcPath: faker.image.url(),
+                name: faker.system.fileName(),
+              }
+            },
+          })))
+      ],
+    },
+    tags: {
+      create: [
+        ...(new Array(30).fill(1).map(() => ({
+          tag: {
+            create: {
+              name: faker.word.noun(),
+              color: faker.color.rgb(),
+            }
+          }
+        })))
+      ]
+    }
+  },
+  {
+    id: 'example-project3',
+    title: faker.company.name(),
+    icon: {
+      create: {
+        srcPath: faker.image.url(),
+        name: faker.system.fileName(),
+      }
+    },
+    contents: {
+      create: [
+        ...(new Array(30).fill(1).map(() => (
+          {
+            contentType: 'File',
+            name: faker.word.conjunction(10),
+            path: faker.image.url(),
+            size: 0,
             icon: {
               create: {
                 srcPath: faker.image.url(),

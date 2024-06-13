@@ -1,5 +1,4 @@
 import DataLoader from "dataloader";
-import { unwrap } from "./BaseRelation";
 
 /**
  * ref https://qiita.com/kyusyukeigo/items/b0c97c8e9ca6d84bf4f9
@@ -19,8 +18,8 @@ export abstract class BaseDataLoader<K, V> {
     return this.dataloader.load(key);
   }
 
-  public async loadMany(keys: K[]): Promise<V[]> {
-    return keys.length > 0 ? (await this.dataloader.loadMany(keys)).map(unwrap) : [];
+  public async loadMany(keys: K[]): Promise<(V | Error)[]> {
+    return keys.length > 0 ? await this.dataloader.loadMany(keys) : [];
   }
 
   public prime(key: K, value: V): DataLoader<K, V> {

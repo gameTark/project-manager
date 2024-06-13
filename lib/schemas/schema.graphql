@@ -64,7 +64,7 @@ type Content implements Node {
   icon: Icon!
   path: String!
   updatedAt: Float!
-  size: Int!
+  size: Float!
   project: Project
 }
 
