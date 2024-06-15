@@ -1,0 +1,8 @@
+mutation InsertProject($name: String!, $iconId: ID!, $description: String, $sort: String) {
+  insertProject(name: $name, iconId: $iconId, description: $description, sort: $sort) {
+    id
+    title
+    description
+    sort
+  }
+}

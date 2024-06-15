@@ -61,23 +61,36 @@ type Content implements Node {
   contentType: ContentType!
   id: ID!
   name: String!
-  icon: Icon!
   path: String!
   updatedAt: Float!
   size: Float!
+
   project: Project
+  icon: Icon!
 }
 
 type Query {
-  hello: String!
   projects: [Project]!
   icons: [Icon]!
   getProject(id: ID!): Project
   file(path: String!): File
-  rollThreeDice: [Int!]!
 }
 
 type Mutation {
-  project(name: String!, id: ID): Project
-  content(name: String!, path: String!, projectId: ID!, id: ID): Content
+  insertProject(name: String!, iconId: ID!, description: String, sort: String): Project
+  updateProject(name: String, iconId: ID, description: String, sort: String id: ID!): Project
+  deleteProject(id: ID!): Project
+
+  insertTag(name: String!, color: String): Tag
+  updateTag(name: String, color: String, id: ID!): Tag
+  deleteTag(id: ID!): Tag
+  registTag(tagId: ID!, projectId: ID!): Boolean
+
+  insertIcon(name: String!, srcPath: String!): Icon
+  updateIcon(name: String, srcPath: String, id: ID!): Icon
+  deleteIcon(id: ID!): Icon
+
+  insertContent(name: String!, path: String!, projectId: ID!, icon: ID): Content
+  updateContent(name: String, path: String, projectId: ID!, icon: ID, id: ID!): Content
+  deleteContent(id: ID!): Content
 }

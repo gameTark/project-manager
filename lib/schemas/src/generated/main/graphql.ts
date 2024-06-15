@@ -16,20 +16,24 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-export type Author = Node & {
-  __typename?: 'Author';
-  age?: Maybe<Scalars['Int']['output']>;
-  books: Array<Maybe<Book>>;
+export type Content = Node & {
+  __typename?: 'Content';
+  contentType: ContentType;
+  icon: Icon;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
+  path: Scalars['String']['output'];
+  project?: Maybe<Project>;
+  size: Scalars['Float']['output'];
+  updatedAt: Scalars['Float']['output'];
 };
 
-export type Book = Node & {
-  __typename?: 'Book';
-  author: Author;
-  id: Scalars['ID']['output'];
-  title: Scalars['String']['output'];
-};
+export enum ContentType {
+  Directory = 'Directory',
+  File = 'File',
+  Link = 'Link',
+  Software = 'Software'
+}
 
 export type File = {
   __typename?: 'File';
@@ -46,21 +50,164 @@ export enum FileType {
   File = 'FILE'
 }
 
+export type Icon = Node & {
+  __typename?: 'Icon';
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  srcPath: Scalars['String']['output'];
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  deleteContent?: Maybe<Content>;
+  deleteIcon?: Maybe<Icon>;
+  deleteProject?: Maybe<Project>;
+  deleteTag?: Maybe<Tag>;
+  insertContent?: Maybe<Content>;
+  insertIcon?: Maybe<Icon>;
+  insertProject?: Maybe<Project>;
+  insertTag?: Maybe<Tag>;
+  registTag?: Maybe<Scalars['Boolean']['output']>;
+  updateContent?: Maybe<Content>;
+  updateIcon?: Maybe<Icon>;
+  updateProject?: Maybe<Project>;
+  updateTag?: Maybe<Tag>;
+};
+
+
+export type MutationDeleteContentArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteIconArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteProjectArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteTagArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationInsertContentArgs = {
+  icon?: InputMaybe<Scalars['ID']['input']>;
+  name: Scalars['String']['input'];
+  path: Scalars['String']['input'];
+  projectId: Scalars['ID']['input'];
+};
+
+
+export type MutationInsertIconArgs = {
+  name: Scalars['String']['input'];
+  srcPath: Scalars['String']['input'];
+};
+
+
+export type MutationInsertProjectArgs = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  iconId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  sort?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationInsertTagArgs = {
+  color?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+};
+
+
+export type MutationRegistTagArgs = {
+  projectId: Scalars['ID']['input'];
+  tagId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateContentArgs = {
+  icon?: InputMaybe<Scalars['ID']['input']>;
+  id: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  path?: InputMaybe<Scalars['String']['input']>;
+  projectId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateIconArgs = {
+  id: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  srcPath?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationUpdateProjectArgs = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  iconId?: InputMaybe<Scalars['ID']['input']>;
+  id: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationUpdateTagArgs = {
+  color?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Node = {
   id: Scalars['ID']['output'];
 };
 
+export type Project = Node & {
+  __typename?: 'Project';
+  contents: Array<Maybe<Content>>;
+  description?: Maybe<Scalars['String']['output']>;
+  icon: Icon;
+  id: Scalars['ID']['output'];
+  sort?: Maybe<Scalars['Int']['output']>;
+  tags: Array<Maybe<Tag>>;
+  title: Scalars['String']['output'];
+  updatedAt: Scalars['Float']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
-  books: Array<Book>;
   file?: Maybe<File>;
-  hello: Scalars['String']['output'];
-  rollThreeDice: Array<Scalars['Int']['output']>;
+  getProject?: Maybe<Project>;
+  icons: Array<Maybe<Icon>>;
+  projects: Array<Maybe<Project>>;
 };
 
 
 export type QueryFileArgs = {
   path: Scalars['String']['input'];
+};
+
+
+export type QueryGetProjectArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export type Software = Node & {
+  __typename?: 'Software';
+  args: Array<Maybe<Scalars['String']['output']>>;
+  icon: Icon;
+  id: Scalars['ID']['output'];
+  path: Scalars['String']['output'];
+};
+
+export type Tag = Node & {
+  __typename?: 'Tag';
+  color: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  projects: Array<Maybe<Project>>;
 };
 
 
@@ -133,50 +280,56 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> = {
-  Node: ( Author ) | ( Book );
+  Node: ( Content ) | ( Icon ) | ( Project ) | ( Software ) | ( Tag );
 };
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Author: ResolverTypeWrapper<Author>;
-  Book: ResolverTypeWrapper<Book>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  Content: ResolverTypeWrapper<Content>;
+  ContentType: ContentType;
   File: ResolverTypeWrapper<File>;
   FileType: FileType;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  Icon: ResolverTypeWrapper<Icon>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  Mutation: ResolverTypeWrapper<{}>;
   Node: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Node']>;
+  Project: ResolverTypeWrapper<Project>;
   Query: ResolverTypeWrapper<{}>;
+  Software: ResolverTypeWrapper<Software>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  Tag: ResolverTypeWrapper<Tag>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Author: Author;
-  Book: Book;
   Boolean: Scalars['Boolean']['output'];
+  Content: Content;
   File: File;
   Float: Scalars['Float']['output'];
   ID: Scalars['ID']['output'];
+  Icon: Icon;
   Int: Scalars['Int']['output'];
+  Mutation: {};
   Node: ResolversInterfaceTypes<ResolversParentTypes>['Node'];
+  Project: Project;
   Query: {};
+  Software: Software;
   String: Scalars['String']['output'];
+  Tag: Tag;
 };
 
-export type AuthorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Author'] = ResolversParentTypes['Author']> = {
-  age?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  books?: Resolver<Array<Maybe<ResolversTypes['Book']>>, ParentType, ContextType>;
+export type ContentResolvers<ContextType = any, ParentType extends ResolversParentTypes['Content'] = ResolversParentTypes['Content']> = {
+  contentType?: Resolver<ResolversTypes['ContentType'], ParentType, ContextType>;
+  icon?: Resolver<ResolversTypes['Icon'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type BookResolvers<ContextType = any, ParentType extends ResolversParentTypes['Book'] = ResolversParentTypes['Book']> = {
-  author?: Resolver<ResolversTypes['Author'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  path?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  project?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType>;
+  size?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -190,23 +343,78 @@ export type FileResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type IconResolvers<ContextType = any, ParentType extends ResolversParentTypes['Icon'] = ResolversParentTypes['Icon']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  srcPath?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  deleteContent?: Resolver<Maybe<ResolversTypes['Content']>, ParentType, ContextType, RequireFields<MutationDeleteContentArgs, 'id'>>;
+  deleteIcon?: Resolver<Maybe<ResolversTypes['Icon']>, ParentType, ContextType, RequireFields<MutationDeleteIconArgs, 'id'>>;
+  deleteProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationDeleteProjectArgs, 'id'>>;
+  deleteTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationDeleteTagArgs, 'id'>>;
+  insertContent?: Resolver<Maybe<ResolversTypes['Content']>, ParentType, ContextType, RequireFields<MutationInsertContentArgs, 'name' | 'path' | 'projectId'>>;
+  insertIcon?: Resolver<Maybe<ResolversTypes['Icon']>, ParentType, ContextType, RequireFields<MutationInsertIconArgs, 'name' | 'srcPath'>>;
+  insertProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationInsertProjectArgs, 'iconId' | 'name'>>;
+  insertTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationInsertTagArgs, 'name'>>;
+  registTag?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRegistTagArgs, 'projectId' | 'tagId'>>;
+  updateContent?: Resolver<Maybe<ResolversTypes['Content']>, ParentType, ContextType, RequireFields<MutationUpdateContentArgs, 'id' | 'projectId'>>;
+  updateIcon?: Resolver<Maybe<ResolversTypes['Icon']>, ParentType, ContextType, RequireFields<MutationUpdateIconArgs, 'id'>>;
+  updateProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationUpdateProjectArgs, 'id'>>;
+  updateTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationUpdateTagArgs, 'id'>>;
+};
+
 export type NodeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Node'] = ResolversParentTypes['Node']> = {
-  __resolveType: TypeResolveFn<'Author' | 'Book', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'Content' | 'Icon' | 'Project' | 'Software' | 'Tag', ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
 };
 
+export type ProjectResolvers<ContextType = any, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = {
+  contents?: Resolver<Array<Maybe<ResolversTypes['Content']>>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  icon?: Resolver<ResolversTypes['Icon'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  sort?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  tags?: Resolver<Array<Maybe<ResolversTypes['Tag']>>, ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  books?: Resolver<Array<ResolversTypes['Book']>, ParentType, ContextType>;
   file?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<QueryFileArgs, 'path'>>;
-  hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  rollThreeDice?: Resolver<Array<ResolversTypes['Int']>, ParentType, ContextType>;
+  getProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<QueryGetProjectArgs, 'id'>>;
+  icons?: Resolver<Array<Maybe<ResolversTypes['Icon']>>, ParentType, ContextType>;
+  projects?: Resolver<Array<Maybe<ResolversTypes['Project']>>, ParentType, ContextType>;
+};
+
+export type SoftwareResolvers<ContextType = any, ParentType extends ResolversParentTypes['Software'] = ResolversParentTypes['Software']> = {
+  args?: Resolver<Array<Maybe<ResolversTypes['String']>>, ParentType, ContextType>;
+  icon?: Resolver<ResolversTypes['Icon'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  path?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TagResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = {
+  color?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  projects?: Resolver<Array<Maybe<ResolversTypes['Project']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
-  Author?: AuthorResolvers<ContextType>;
-  Book?: BookResolvers<ContextType>;
+  Content?: ContentResolvers<ContextType>;
   File?: FileResolvers<ContextType>;
+  Icon?: IconResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   Node?: NodeResolvers<ContextType>;
+  Project?: ProjectResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Software?: SoftwareResolvers<ContextType>;
+  Tag?: TagResolvers<ContextType>;
 };
 

@@ -1,0 +1,7 @@
+query GetIcon {
+  icons {
+    id
+    srcPath
+    name
+  }
+}

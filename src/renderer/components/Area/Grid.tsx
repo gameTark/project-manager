@@ -14,7 +14,7 @@ const Divider = styled("div", {
     opacity: 1,
   },
 });
-export const GridLayout = (props: { children: ReactNode }) => {
+export const GridLayout = (props: { navigation: ReactNode; children: ReactNode }) => {
   const [size, setSize] = useState(20);
   const left = 100 - size;
   const right = size;
@@ -35,7 +35,7 @@ export const GridLayout = (props: { children: ReactNode }) => {
   return (
     <Box height="100%" width="100%" position="relative" style={{ zIndex: 0 }} ref={refParent}>
       <Box position="absolute" inset={`0 ${left}% 0 0`} p="1">
-        {props.children}
+        {props.navigation}
       </Box>
       <Divider
         draggable
