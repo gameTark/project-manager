@@ -1,5 +1,5 @@
 import { DragEventHandler, ReactNode, useRef, useState } from "react";
-import { Box } from "@radix-ui/themes";
+import { Box, ScrollArea } from "@radix-ui/themes";
 import { styled } from "@stitches/react";
 import { useThrottleFn } from "ahooks";
 
@@ -35,7 +35,9 @@ export const GridLayout = (props: { navigation: ReactNode; children: ReactNode }
   return (
     <Box height="100%" width="100%" position="relative" style={{ zIndex: 0 }} ref={refParent}>
       <Box position="absolute" inset={`0 ${left}% 0 0`} p="1">
-        {props.navigation}
+        <ScrollArea type="always" scrollbars="vertical" style={{ height: "100%" }}>
+          {props.navigation}
+        </ScrollArea>
       </Box>
       <Divider
         draggable
@@ -43,7 +45,9 @@ export const GridLayout = (props: { navigation: ReactNode; children: ReactNode }
         onDrag={handleDragDivider}
       />
       <Box position="absolute" inset={`0 0 0 ${right}%`}>
-        {props.children}
+        <ScrollArea type="always" scrollbars="vertical" style={{ height: "100%" }}>
+          {props.children}
+        </ScrollArea>
       </Box>
     </Box>
   );

@@ -111,7 +111,6 @@ export type MutationInsertProjectArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
   iconId: Scalars['ID']['input'];
   name: Scalars['String']['input'];
-  sort?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -237,7 +236,7 @@ export type GetProjectQuery = { __typename?: 'Query', getProject?: { __typename?
 export type GetProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProjectsQuery = { __typename?: 'Query', projects: Array<{ __typename?: 'Project', id: string, title: string, description?: string | null, icon: { __typename?: 'Icon', id: string, name: string, srcPath: string } } | null> };
+export type GetProjectsQuery = { __typename?: 'Query', projects: Array<{ __typename?: 'Project', id: string, title: string, sort?: number | null, description?: string | null, icon: { __typename?: 'Icon', id: string, name: string, srcPath: string }, tags: Array<{ __typename?: 'Tag', id: string, name: string, color: string } | null> } | null> };
 
 export type InsertProjectMutationVariables = Exact<{
   name: Scalars['String']['input'];
@@ -247,7 +246,7 @@ export type InsertProjectMutationVariables = Exact<{
 }>;
 
 
-export type InsertProjectMutation = { __typename?: 'Mutation', insertProject?: { __typename?: 'Project', id: string, title: string, description?: string | null, sort?: number | null } | null };
+export type InsertProjectMutation = { __typename?: 'Mutation', insertProject?: { __typename?: 'Project', id: string, title: string, description?: string | null } | null };
 
 export type UpdateProjectMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']['input']>;

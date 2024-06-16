@@ -4,6 +4,7 @@ import { RecursivePartial } from "@utils/type";
 import { type Tag as TTag } from "schemas/src/generated/renderer/gql";
 
 import { Project } from "../Project/context";
+import { getFurthestColor } from "@utils/color";
 
 const TagContext = createContext<RecursivePartial<TTag> | null>(null);
 
@@ -11,14 +12,16 @@ const useTagContext = () => useContext(TagContext);
 
 const Title = (): ReactNode => useTagContext()?.name;
 const BadgeStyle = styled("span", {
-  border: "1px solid #555",
-  borderRadius: "4px",
-  padding: "4px 2px",
+  display: 'inline-block',
+  border: "1px solid #888",
+  borderRadius: "999px",
+  padding: "0px 6px",
 });
 const Badge = (): ReactNode => {
   const badge = useTagContext();
   if (badge?.color == null || badge.name == null) return null;
-  return <BadgeStyle style={{ backgroundColor: badge.color }}>{badge.name}</BadgeStyle>;
+  const c = getFurthestColor(badge.color);
+  return <BadgeStyle style={{ backgroundColor: badge.color, color: c }}>{badge.name}</BadgeStyle>;
 };
 
 const ProjectListProvider = (props: { children: ReactNode }) => {

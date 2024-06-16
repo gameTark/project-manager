@@ -113,7 +113,6 @@ export type MutationInsertProjectArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
   iconId: Scalars['ID']['input'];
   name: Scalars['String']['input'];
-  sort?: InputMaybe<Scalars['String']['input']>;
 };
 
 

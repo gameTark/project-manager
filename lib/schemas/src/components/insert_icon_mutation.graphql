@@ -1,0 +1,7 @@
+mutation InsertIcon($name: String!, $binary: String!) {
+  insertIcon(name: $name, binary: $binary) {
+    id
+    title
+    description
+  }
+}

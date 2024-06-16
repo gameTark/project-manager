@@ -101,10 +101,8 @@ const Viewer = (props: { path?: string }) => {
 
 export const FileTree = (props: { path: string }) => {
   return (
-    <ScrollArea type="always" scrollbars="vertical" style={{ height: "100%" }}>
-      <Container width={"100%"} pr={"3"} pl={"1"}>
-        <Viewer path={props.path} />
-      </Container>
-    </ScrollArea>
+    <Container width={"100%"} pr={"3"} pl={"1"}>
+      <Viewer path={props.path} />
+    </Container>
   );
 };

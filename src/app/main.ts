@@ -1,9 +1,25 @@
 import { join } from "path";
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, protocol } from "electron";
 
 import { graphqlServer } from "./graphql";
+import { PROTOCOLS } from "../constants/PROTOCOL";
 
 app.whenReady().then(() => {
+  protocol.registerSchemesAsPrivileged([
+    {
+      scheme: PROTOCOLS.IMAGE,
+      privileges: {
+        supportFetchAPI: true,
+      },
+    },
+  ]);
+
+  // (request: GlobalRequest) => (GlobalResponse) | (Promise<GlobalResponse>)
+  // protocol.handle(PROTOCOLS.IMAGE, (req) => {
+  //   return {
+  //   }
+  // });
+
   const win = new BrowserWindow({
     title: "Main window",
     width: 1000,

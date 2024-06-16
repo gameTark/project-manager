@@ -77,7 +77,7 @@ type Query {
 }
 
 type Mutation {
-  insertProject(name: String!, iconId: ID!, description: String, sort: String): Project
+  insertProject(name: String!, iconId: ID!, description: String): Project
   updateProject(name: String, iconId: ID, description: String, sort: String id: ID!): Project
   deleteProject(id: ID!): Project
 
@@ -86,8 +86,8 @@ type Mutation {
   deleteTag(id: ID!): Tag
   registTag(tagId: ID!, projectId: ID!): Boolean
 
-  insertIcon(name: String!, srcPath: String!): Icon
-  updateIcon(name: String, srcPath: String, id: ID!): Icon
+  insertIcon(name: String!, binary: String!): Icon
+  updateIcon(name: String, binary: String, id: ID!): Icon
   deleteIcon(id: ID!): Icon
 
   insertContent(name: String!, path: String!, projectId: ID!, icon: ID): Content
