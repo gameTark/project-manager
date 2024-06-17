@@ -1,4 +1,5 @@
 import { styled } from "@stitches/react";
+import { useGetProjectsQuery } from "schemas/src/generated/renderer/gql";
 
 import { Tag } from "../Tags/context";
 import { Project } from "./context";
@@ -26,9 +27,10 @@ const ProjectItem = () => {
 };
 
 export const ProjectList = () => {
+  const projectsQuery = useGetProjectsQuery();
   return (
     <ul>
-      {([] as any).map((val) => (
+      {projectsQuery.data?.projects.map((val) => (
         <Project.Provider value={val || null} key={val?.id}>
           <ProjectItem />
         </Project.Provider>

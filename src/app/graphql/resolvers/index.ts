@@ -120,8 +120,10 @@ export const MUTATIONS = {
 };
 export const QUERIES = {
   file: (_: any, args: QueryFileArgs) => {
-    console.log(args);
     return fileDataloader.load(args.path);
+  },
+  icons: () => {
+    return prisma.icon.findMany();
   },
   getProject: async (_: any, { id }: QueryGetProjectArgs) => {
     const item = await prisma.project.findUnique({ where: { id: id } });

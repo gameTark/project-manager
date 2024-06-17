@@ -93,7 +93,6 @@ const Provider = (props: { path?: string; children: ReactNode }) => {
       path: path || props.path || "",
     },
   });
-  console.log(fileState);
   return (
     <FileItemContext.Provider
       value={{

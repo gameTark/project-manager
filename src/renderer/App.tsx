@@ -6,6 +6,7 @@ import "@apollo/client";
 import { PROTOCOLS } from "../constants/PROTOCOL";
 import { GridLayout } from "./components/Area/Grid";
 import { FileTree } from "./components/DirectoryViewer";
+import { IconViwer } from "./components/Icon/viewer";
 import { ProjectList } from "./components/Project/viewer";
 
 const path = "C:/Users/araki/Develop/github/game-tark/project-manager";
@@ -20,7 +21,10 @@ export default function App() {
     <ApolloProvider client={client}>
       <Container width={"100vw"} height={"100vh"} maxWidth={"100vw"} maxHeight={"100vh"}>
         <GridLayout navigation={<FileTree path={path} />}>
-          <ProjectList />
+          <div>
+            <ProjectList />
+            <IconViwer.List />
+          </div>
         </GridLayout>
       </Container>
     </ApolloProvider>

@@ -19,5 +19,8 @@ const Image = (): ReactNode => {
 export const Icon = {
   Name,
   Image,
+  use: {
+    useContext: useIconContext,
+  },
   Provider: IconContext.Provider,
 };
