@@ -3,9 +3,7 @@ import { createContext, ReactNode, useCallback, useContext, useState } from "rea
 import { FileIcon, FileTextIcon, GitHubLogoIcon, GroupIcon } from "@radix-ui/react-icons";
 import { dayjs } from "@utils/dayjs";
 import { RecursivePartial } from "@utils/type";
-import { FileType, type File as TFile } from "schemas/src/generated/renderer/gql";
-
-import { useFileTreeQuery } from "../../queries/baseQuery";
+import { FileType, useGetFileQuery, type File as TFile } from "schemas/src/generated/renderer/gql";
 
 const FileItemContext = createContext<RecursivePartial<TFile> | null>(null);
 
@@ -90,12 +88,16 @@ const List = (props: { children: ReactNode }) => {
 
 const Provider = (props: { path?: string; children: ReactNode }) => {
   const path = useGetPath();
-  const dataQuery = useFileTreeQuery(path || props.path || "");
-  const file = dataQuery.data?.file;
+  const fileState = useGetFileQuery({
+    variables: {
+      path: path || props.path || "",
+    },
+  });
+  console.log(fileState);
   return (
     <FileItemContext.Provider
       value={{
-        ...file,
+        ...fileState.data?.file,
       }}>
       {props.children}
     </FileItemContext.Provider>

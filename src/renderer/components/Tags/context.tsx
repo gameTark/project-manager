@@ -1,10 +1,10 @@
 import { createContext, ReactNode, useContext } from "react";
 import { styled } from "@stitches/react";
+import { getFurthestColor } from "@utils/color";
 import { RecursivePartial } from "@utils/type";
 import { type Tag as TTag } from "schemas/src/generated/renderer/gql";
 
 import { Project } from "../Project/context";
-import { getFurthestColor } from "@utils/color";
 
 const TagContext = createContext<RecursivePartial<TTag> | null>(null);
 
@@ -12,7 +12,7 @@ const useTagContext = () => useContext(TagContext);
 
 const Title = (): ReactNode => useTagContext()?.name;
 const BadgeStyle = styled("span", {
-  display: 'inline-block',
+  display: "inline-block",
   border: "1px solid #888",
   borderRadius: "999px",
   padding: "0px 6px",

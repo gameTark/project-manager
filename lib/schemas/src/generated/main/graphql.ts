@@ -104,8 +104,8 @@ export type MutationInsertContentArgs = {
 
 
 export type MutationInsertIconArgs = {
+  binary: Scalars['String']['input'];
   name: Scalars['String']['input'];
-  srcPath: Scalars['String']['input'];
 };
 
 
@@ -138,9 +138,9 @@ export type MutationUpdateContentArgs = {
 
 
 export type MutationUpdateIconArgs = {
+  binary?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
   name?: InputMaybe<Scalars['String']['input']>;
-  srcPath?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -355,7 +355,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationDeleteProjectArgs, 'id'>>;
   deleteTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationDeleteTagArgs, 'id'>>;
   insertContent?: Resolver<Maybe<ResolversTypes['Content']>, ParentType, ContextType, RequireFields<MutationInsertContentArgs, 'name' | 'path' | 'projectId'>>;
-  insertIcon?: Resolver<Maybe<ResolversTypes['Icon']>, ParentType, ContextType, RequireFields<MutationInsertIconArgs, 'name' | 'srcPath'>>;
+  insertIcon?: Resolver<Maybe<ResolversTypes['Icon']>, ParentType, ContextType, RequireFields<MutationInsertIconArgs, 'binary' | 'name'>>;
   insertProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationInsertProjectArgs, 'iconId' | 'name'>>;
   insertTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationInsertTagArgs, 'name'>>;
   registTag?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRegistTagArgs, 'projectId' | 'tagId'>>;

@@ -87,8 +87,8 @@ const contentSchema = (content: Content) => {
   };
 };
 
-const mutations = {
-  insertContent: (args: MutationInsertContentArgs) => {
+export const MUTATIONS = {
+  insertContent: (_: any, args: MutationInsertContentArgs) => {
     const content = prisma.content.create({
       data: {
         name: args.name,
@@ -99,7 +99,7 @@ const mutations = {
     });
     return content;
   },
-  updateContent: (args: MutationUpdateContentArgs) => {
+  updateContent: (_: any, args: MutationUpdateContentArgs) => {
     const content = prisma.content.update({
       where: { id: args.id },
       data: {
@@ -111,18 +111,19 @@ const mutations = {
     });
     return content;
   },
-  deleteContent: async (args: MutationDeleteContentArgs) => {
+  deleteContent: async (_: any, args: MutationDeleteContentArgs) => {
     return await prisma.content
       .delete({ where: { id: args.id } })
       .then(() => true)
       .catch(() => false);
   },
 };
-const queries = {
-  file: (args: QueryFileArgs) => {
+export const QUERIES = {
+  file: (_: any, args: QueryFileArgs) => {
+    console.log(args);
     return fileDataloader.load(args.path);
   },
-  getProject: async ({ id }: QueryGetProjectArgs) => {
+  getProject: async (_: any, { id }: QueryGetProjectArgs) => {
     const item = await prisma.project.findUnique({ where: { id: id } });
     if (item == null) throw new Error(`project id[${id}] not found`);
     return projectSchema(item);
@@ -134,7 +135,7 @@ const queries = {
 };
 
 const resolver = {
-  ...queries,
-  ...mutations,
+  ...QUERIES,
+  ...MUTATIONS,
 };
 export default resolver;

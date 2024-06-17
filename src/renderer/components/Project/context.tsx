@@ -16,7 +16,6 @@ const ProjectContext = createContext<RecursivePartial<TProject> | null>(null);
 
 const useProjectContext = () => useContext(ProjectContext);
 
-
 // name: Scalars['String']['input'];
 // iconId: Scalars['ID']['input'];
 // description?: InputMaybe<Scalars['String']['input']>;
@@ -32,8 +31,10 @@ const CreateProvider = (props: { children: ReactNode }) => {
 };
 
 const Name = () => {
-  const { register } = useFormContext<InsertProjectMutationVariables | UpdateProjectMutationVariables>() // retrieve all hook methods
-  return <input type="text" {...register("name")} />
+  const { register } = useFormContext<
+    InsertProjectMutationVariables | UpdateProjectMutationVariables
+  >(); // retrieve all hook methods
+  return <input type="text" {...register("name")} />;
 };
 
 const Title = (): ReactNode => useProjectContext()?.title;
@@ -83,11 +84,12 @@ export const Project = {
   UpdatedAt,
   IconProvider,
   TagListProvider,
+  Name,
   ContentListProvider,
   Editor: {
     create: {
       CreateProvider,
-    }
+    },
   },
   Provider: ProjectContext.Provider,
 };

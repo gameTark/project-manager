@@ -1,15 +1,14 @@
 import { styled } from "@stitches/react";
-import { useGetProjects } from "../../queries/baseQuery";
+
 import { Tag } from "../Tags/context";
 import { Project } from "./context";
 
-const UnorderList = styled('ul', {
-  display: 'flex',
-  flexWrap: 'wrap',
+const UnorderList = styled("ul", {
+  display: "flex",
+  flexWrap: "wrap",
   gap: 4,
-})
-const ListItem = styled('li', {
 });
+const ListItem = styled("li", {});
 const ProjectItem = () => {
   return (
     <li>
@@ -27,10 +26,9 @@ const ProjectItem = () => {
 };
 
 export const ProjectList = () => {
-  const projects = useGetProjects();
   return (
     <ul>
-      {projects.data?.projects.map((val) => (
+      {([] as any).map((val) => (
         <Project.Provider value={val || null} key={val?.id}>
           <ProjectItem />
         </Project.Provider>

@@ -1,8 +1,0 @@
-mutation UpdateProject($name: String, $iconId: ID, $description: String, $sort: String, $id: ID!) {
-  updateProject(name: $name, iconId: $iconId, description: $description, sort: $sort, id: $id) {
-    id
-    title
-    description
-    sort
-  }
-}
